@@ -2,6 +2,7 @@
 @using FineWoodworkingBasic.Service
 @using FineWoodworkingBasic.Model
 @inject LoginService LoginSvc
+@inject AllStateInfoService FullState
 
 <PageTitle>Login</PageTitle>
 
@@ -41,17 +42,22 @@
     public string? CssClass { get; set; }
 
 
-    public void MessageColor(ResultMessage loginMessage)
+    public void SetMessageText(ResultMessage inMessage)
     {
-        if(loginMessage.MessageType.Equals(ResultMessage.ResultMessageType.Error))
+        loginMessage = inMessage.Message;
+    }
+
+    public void SetMessageColor(ResultMessage inMessage)
+    {
+        if(inMessage.MessageType.Equals(ResultMessage.ResultMessageType.Error))
         {
-            CssClass = "errorMesssage";
+            CssClass = "errorMessage";
         }
         else
         {
             CssClass = "successMessage";
         }
-
+        //loginMessage = inMessage.Message + " " + CssClass;
     }
 
 
@@ -71,26 +77,12 @@
     {
 
 
-        /*
-        if ((string.Equals(uname, "jills1")) || (string.Equals(uname, "erose3")))
-            {
-            if (string.Equals(pwd, "IHateMitra")) // I am sad you guys hate me :(
-                {
-                loginMessage = "Login successful";
-                }
-                else
-                {
-                loginMessage = "ERROR: Login failed";
-            }
-            }
-            else
-            {
-            loginMessage = "ERROR: you are TRULY stupid; you entered user name: " + uname;
-        }*/
 
-        ResultMessage mesg = await LoginSvc.LoginAsync(uname, pwd);
-        loginMessage = mesg.Message;
-        MessageColor(mesg);
+
+        ResultMessage mesg = await LoginSvc.LoginAsync(FullState.currentStateInfo, uname, pwd);
+
+        SetMessageText(mesg);
+        SetMessageColor(mesg);
 
        
 

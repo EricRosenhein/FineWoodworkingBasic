@@ -1,11 +1,11 @@
 ﻿using System.Text;
 using DT = System.Data;
 using QC = Microsoft.Data.SqlClient;
-using BrandConsoleApp.Util;
+using FineWoodworkingBasic.Util;
 using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
 
-namespace BrandConsoleApp.Model
+namespace FineWoodworkingBasic.Model
 {
     public class BrandCollection : PersistableCollection
     {

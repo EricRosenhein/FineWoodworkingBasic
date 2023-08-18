@@ -2,6 +2,7 @@
 @using FineWoodworkingBasic.Service
 @using FineWoodworkingBasic.Model
 @inject AddBrandService svc
+@inject AllStateInfoService FullState
 
 <PageTitle>Add a Brand</PageTitle>
 
@@ -10,7 +11,7 @@
 <h1>Please Enter a New Brand</h1>
 
 <div class="form-group row">
-    <label for="brandName" class="col-sm-2 col-form-label">Bramd Name</label>
+    <label for="brandName" class="col-sm-2 col-form-label">Brand Name</label>
     <div class="col-sm-10">
         <input type="text" id="brandName" class="form-control" placeholder="Brand Name" @bind="@bName" @oninput="SetBName" />
     </div>
@@ -48,7 +49,7 @@
 
     private async void AddBrandAction()
     {
-        ResultMessage mesg = await svc.AddBrandAsync(bName, bNotes);
+        ResultMessage mesg = await svc.AddBrandAsync(FullState.currentStateInfo, bName, bNotes);
         addBrandMessage = mesg.Message;
 
     }

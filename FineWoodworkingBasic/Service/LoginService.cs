@@ -1,15 +1,16 @@
-﻿using FineWoodworkingBasic.Model;
+﻿using Azure.Identity;
+using FineWoodworkingBasic.Model;
 namespace FineWoodworkingBasic.Service
 
 {
     public class LoginService
     {
-        public Task<ResultMessage> LoginAsync(string username, string password)
+        public Task<ResultMessage> LoginAsync(Dictionary<string, object> stateInfo, string username, string password)
         {
-            return Task.FromResult(LoginAsyncHelper(username, password));   
+            return Task.FromResult(LoginAsyncHelper(stateInfo, username, password));   
         }
 
-        public ResultMessage LoginAsyncHelper(string uname, string pwd)
+        public ResultMessage LoginAsyncHelper(Dictionary<string, object> stateInfo, string uname, string pwd)
         {
             string loginMessage;
             FineWoodworkingBasic.Model.AuthorizedUser au = new FineWoodworkingBasic.Model.AuthorizedUser();
@@ -21,11 +22,13 @@ namespace FineWoodworkingBasic.Service
                 if (au.CheckIfPasswordsMatch(pwd))
                 {
                     loginMessage = "Login successful!!";
+                    stateInfo["userName"] = uname;
                     return new ResultMessage(ResultMessage.ResultMessageType.Success, loginMessage);
                 }
                 else
                 {
                     loginMessage = "ERROR: Passwords don't match!";
+                    stateInfo.Remove("userName");
                     return new ResultMessage(ResultMessage.ResultMessageType.Error, loginMessage);
                 }
             }
@@ -42,6 +45,7 @@ namespace FineWoodworkingBasic.Service
                     loginMessage = "ERROR: Unexpected error in retrieving user with user name: " + uname + " from database!";
                     
                 }
+                stateInfo.Remove("userName");
                 return new ResultMessage(ResultMessage.ResultMessageType.Error, loginMessage);
 
             }

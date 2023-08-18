@@ -1,10 +1,10 @@
 ﻿using System.Globalization;
 using DT = System.Data;
 using QC = Microsoft.Data.SqlClient;
-using BrandConsoleApp.Util;
+using FineWoodworkingBasic.Util;
 using System.Security.Cryptography.X509Certificates;
 
-namespace BrandConsoleApp.Model
+namespace FineWoodworkingBasic.Model
 {
 
     public class Brand : Persistable

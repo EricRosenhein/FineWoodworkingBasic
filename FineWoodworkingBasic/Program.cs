@@ -2,11 +2,11 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using FineWoodworkingBasic.Util;
 using FineWoodworkingBasic.Service;
-using LoginBlazorApp.Service;
+using FineWoodworkingBasic.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
-Utilities.EstablishConnection("C:\\Users\\emr19\\source\\repos\\FineWoodworkingBasic\\FineWoodworkingBasic\\dbConfig.ini");
+Utilities.EstablishConnection("C:\\Users\\Sweet Baby Jay\\source\\repos\\FineWoodworkingBasic\\FineWoodworkingBasic\\dbConfig.ini");
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -14,6 +14,8 @@ builder.Services.AddServerSideBlazor();
 // Register the login service
 builder.Services.AddSingleton<LoginService>();
 builder.Services.AddSingleton<AddBrandService>();
+// Add the AppState class
+builder.Services.AddScoped<AllStateInfoService>();
 
 var app = builder.Build();
 
