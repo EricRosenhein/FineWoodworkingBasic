@@ -1,0 +1,99 @@
+﻿@page "/login"
+@using FineWoodworkingBasic.Service
+@using FineWoodworkingBasic.Model
+@inject LoginService LoginSvc
+
+<PageTitle>Login</PageTitle>
+
+<h1>Please Enter UserName and Password</h1>
+
+
+
+    <div class ="form-group row">
+        <label for="userName" class="col-sm-2 col-form-label">User Name</label>
+        <div class="col-sm-10">
+            <input type="text" id="userName" class="form-control" placeholder="User Name" @bind="@uname" @oninput="SetUName"/>
+        </div>
+    </div>
+    <div class ="form-group row">
+        <label for="password" class="col-sm-2 col-form-label">Password</label>
+        <div class="col-sm-10">
+            <input type="password" id="password" class="form-control" placeholder="Password" @bind="@pwd" @oninput="SetPwd"/>
+        </div>
+    </div>
+
+
+
+<button class="btn btn-primary" @onclick="LoginAction">Login</button>
+<div class="@CssClass">
+<p role="status">Login status: @loginMessage </p>
+</div>
+
+
+@code {
+
+
+
+    private string? loginMessage { get; set; }
+    private string? uname { get; set; }
+    private string? pwd { get; set; }
+
+    public string? CssClass { get; set; }
+
+
+    public void MessageColor(ResultMessage loginMessage)
+    {
+        if(loginMessage.MessageType.Equals(ResultMessage.ResultMessageType.Error))
+        {
+            CssClass = "errorMesssage";
+        }
+        else
+        {
+            CssClass = "successMessage";
+        }
+
+    }
+
+
+
+
+    private void SetUName(ChangeEventArgs changeEvent)
+    {
+        uname = (string)changeEvent.Value;    
+    }
+
+    private void SetPwd(ChangeEventArgs changeEvent)
+    {
+        pwd = (string)changeEvent.Value;
+    }
+
+    private async void LoginAction()
+    {
+
+
+        /*
+        if ((string.Equals(uname, "jills1")) || (string.Equals(uname, "erose3")))
+            {
+            if (string.Equals(pwd, "IHateMitra")) // I am sad you guys hate me :(
+                {
+                loginMessage = "Login successful";
+                }
+                else
+                {
+                loginMessage = "ERROR: Login failed";
+            }
+            }
+            else
+            {
+            loginMessage = "ERROR: you are TRULY stupid; you entered user name: " + uname;
+        }*/
+
+        ResultMessage mesg = await LoginSvc.LoginAsync(uname, pwd);
+        loginMessage = mesg.Message;
+        MessageColor(mesg);
+
+       
+
+
+    }
+}
